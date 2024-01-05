@@ -6,6 +6,8 @@ const loader = document.querySelector("#loader")
 const cb_search_release = document.querySelector("#cb_search_release")
 const limit = 20;
 const API_KEY = '73005fd771db9631c03e18e59792e5a5';
+const max_progress = limit * 2 - 1;
+let progress = 0;
 
 // console.log(fuzzball.ratio("fuzz", "fuzzy"));
 
@@ -31,6 +33,7 @@ async function find() {
     }
 
     loader.style.visibility = 'visible';
+    set_progress(0);
 
     let results = await get_artists(input);
     let songs = await get_songs(input);
@@ -91,6 +94,7 @@ async function get_songs(input) {
             song_position: song_position !== -1 ? song_position + 1 : '50+',
             release_date: release
         });
+        set_progress(progress+1);
     }
     return result;
 }
@@ -109,6 +113,7 @@ async function get_artists(input) {
             tags: tags,
             artist_url: artist['url']
         });
+        set_progress(progress+1);
     }
     return result;
 }
@@ -147,4 +152,9 @@ async function send_request_with_timeout(url, timeout = 1000) {
         let response = await fetch(url);
         resolve(response.text());
     }, timeout));
+}
+
+function set_progress(progress_value) {
+    progress = progress_value;
+    loader.style.width = Math.min(progress/max_progress*100, 100) + "%";
 }

@@ -181,10 +181,12 @@ main {
     display: grid;
     place-items: center;
     background: #CCCCCC;
+    align-content: flex-start;
 }
 
 .container {
     text-align: center;
+    width: 90%;
 }
 
 #value {
@@ -217,6 +219,8 @@ main {
     text-align: left;
     width: auto;
     border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .tbl td {
@@ -254,16 +258,6 @@ tr:nth-child(even) {
     margin: 0.3rem;
 }
 
-.loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 2s linear infinite;
-    display: inline-block;
-}
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -289,4 +283,10 @@ a, a:visited, a:hover, a:active {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     border-radius: var(--radius);
     margin: 0.3rem;
+}
+
+.loader {
+    transition:300ms linear;
+    height: 3px;
+    background-color: #08639e;
 }
