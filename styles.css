@@ -243,6 +243,10 @@ tr:nth-child(even) {
     background-color: #bebec2;
 }
 
+tr:nth-child(odd) {
+    background-color: #CCCCCC;
+}
+
 .tag {
     text-transform: uppercase;
     background: transparent;

@@ -18,7 +18,8 @@
     <div class="container">
         <div class="button-container">
             <div><label for="cb_search_release">Search for release date (takes longer)</label><input type="checkbox" class="btn" id="cb_search_release" /></div>
-            <input type="text" class="btn" id="text_input" />
+            <input type="text" class="btn" id="text_input" list="history" autocomplete="off"/>
+            <datalist id="history"></datalist>
             <button class="btn" id="btn_find">Find</button>
         </div>
         <div style="background-color: #bebec2; margin-bottom: 5px">

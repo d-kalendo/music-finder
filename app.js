@@ -2,12 +2,14 @@ const value = document.querySelector("#value");
 const text_input = document.querySelector("#text_input");
 const results_list = document.querySelector("#results");
 const btn_find = document.querySelector("#btn_find");
-const loader = document.querySelector("#loader")
-const cb_search_release = document.querySelector("#cb_search_release")
+const loader = document.querySelector("#loader");
+const cb_search_release = document.querySelector("#cb_search_release");
+const history_list = document.querySelector("#history");
 const limit = 20;
 const API_KEY = '73005fd771db9631c03e18e59792e5a5';
 const max_progress = limit * 2 - 1;
 let progress = 0;
+let history = new Map();
 
 // console.log(fuzzball.ratio("fuzz", "fuzzy"));
 
@@ -27,7 +29,7 @@ function numberWithCommas(value) {
 }
 
 async function find() {
-    let input = text_input.value;
+    let input = text_input.value.toUpperCase();
     if (input === '') {
         return;
     }
@@ -35,19 +37,34 @@ async function find() {
     loader.style.visibility = 'visible';
     set_progress(0);
 
-    let results = await get_artists(input);
-    let songs = await get_songs(input);
-    results = results.concat(songs);
+    if (history.has(input)) {
+        set_results(history.get(input));
+    } else {
+        let results = await get_artists(input);
+        let songs = await get_songs(input);
+        results = results.concat(songs);
+        results.sort((a, b) => b['listeners'] - a['listeners']);
+        set_results(results);
+        update_history(input, results);
+    }
 
+    loader.style.visibility = 'hidden';
+    set_progress(0);
+}
 
+function update_history(input, results) {
+    history.set(input, results);
+    let option = document.createElement('option');
+    option.value = input;
+    history_list.insertBefore(option, history_list.firstChild);
+}
+
+function set_results(results) {
     results_list.innerHTML = '<tr><th></th><th>Artist</th><th>Track [position]</th><th>Listeners</th><th>Tags</th></tr>';
-    results.sort((a, b) => b['listeners'] - a['listeners']);
     for (let [index, result] of results.entries()) {
         let row = results_list.insertRow();
         row.innerHTML = result_to_row(result, index + 1);
     }
-
-    loader.style.visibility = 'hidden';
 }
 
 function result_to_row(result, index) {
