@@ -11,7 +11,9 @@ const max_progress = limit * 2 - 1;
 let progress = 0;
 let history = new Map();
 
-// console.log(fuzzball.ratio("fuzz", "fuzzy"));
+load_history();
+
+// TODO: links to google, last fm, yandex music, spotify
 
 btn_find.addEventListener("click", function (e) {
     find();
@@ -57,6 +59,16 @@ function update_history(input, results) {
     let option = document.createElement('option');
     option.value = input;
     history_list.insertBefore(option, history_list.firstChild);
+    localStorage.history = JSON.stringify([...history]);
+}
+
+function load_history() {
+    history = new Map(JSON.parse(localStorage.history));
+    for (let k of history.keys()) {
+        let option = document.createElement('option');
+        option.value = k;
+        history_list.insertBefore(option, history_list.firstChild);
+    }
 }
 
 function set_results(results) {
