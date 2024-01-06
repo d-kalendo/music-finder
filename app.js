@@ -63,6 +63,7 @@ function update_history(input, results) {
 }
 
 function load_history() {
+    if (!localStorage.history) return;
     history = new Map(JSON.parse(localStorage.history));
     for (let k of history.keys()) {
         let option = document.createElement('option');
