@@ -83,8 +83,22 @@ function set_results(results) {
 function result_to_row(result, index) {
     let song_position = result.song_position != null ? `<span class='tag'>${result.song_position}</span>` : '';
     let release_date = result.release_date != null ? `<span class="release-date">${result.release_date}</span>` : '';
-    let row = `<td>${index}</td>
-                      <td><a href="${result.artist_url}">${result.artist_name}</a></td>
+    let search_term = result.artist_name+" "+result.song_name;
+    let google_link = "https://google.com/search?q="+search_term;
+    let youtube_link = "https://youtube.com/results?search_query="+search_term;
+    let yandex_link = "https://music.yandex.ru/search?text="+search_term;
+    let spotify_link = "https://open.spotify.com/search/"+search_term;
+    let row = `<td>
+                        <div style="padding-top: 3px">
+                            <svg xmlns="http://www.w3.org/2000/svg" cursor="pointer" height="16" width="14" viewBox="0 0 448 512" onclick="navigator.clipboard.writeText('${result.artist_name} - ${result.song_name}')"><path d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
+                            <a href="${google_link}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="15.25" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/></svg></a>
+                            <a href="${youtube_link}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg></a>
+                            <a href="${yandex_link}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="8" viewBox="0 0 256 512"><path d="M153.1 315.8L65.7 512H2l96-209.8c-45.1-22.9-75.2-64.4-75.2-141.1C22.7 53.7 90.8 0 171.7 0H254v512h-55.1V315.8h-45.8zm45.8-269.3h-29.4c-44.4 0-87.4 29.4-87.4 114.6 0 82.3 39.4 108.8 87.4 108.8h29.4V46.5z"/></svg></a>
+                            <a href="${spotify_link}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="15.5" viewBox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-4.2 0-6.8-1.3-10.7-3.6-62.4-37.6-135-39.2-206.7-24.5-3.9 1-9 2.6-11.9 2.6-9.7 0-15.8-7.7-15.8-15.8 0-10.3 6.1-15.2 13.6-16.8 81.9-18.1 165.6-16.5 237 26.2 6.1 3.9 9.7 7.4 9.7 16.5s-7.1 15.4-15.2 15.4zm26.9-65.6c-5.2 0-8.7-2.3-12.3-4.2-62.5-37-155.7-51.9-238.6-29.4-4.8 1.3-7.4 2.6-11.9 2.6-10.7 0-19.4-8.7-19.4-19.4s5.2-17.8 15.5-20.7c27.8-7.8 56.2-13.6 97.8-13.6 64.9 0 127.6 16.1 177 45.5 8.1 4.8 11.3 11 11.3 19.7-.1 10.8-8.5 19.5-19.4 19.5zm31-76.2c-5.2 0-8.4-1.3-12.9-3.9-71.2-42.5-198.5-52.7-280.9-29.7-3.6 1-8.1 2.6-12.9 2.6-13.2 0-23.3-10.3-23.3-23.6 0-13.6 8.4-21.3 17.4-23.9 35.2-10.3 74.6-15.2 117.5-15.2 73 0 149.5 15.2 205.4 47.8 7.8 4.5 12.9 10.7 12.9 22.6 0 13.6-11 23.3-23.2 23.3z"/></svg></a>
+                        </div>
+                      </td>
+                      <td>${index}</td>
+                      <td><a href="${result.artist_url}" target="_blank">${result.artist_name}</a></td>
                       <td>${release_date}<span style="vertical-align: middle">${result.song_name}</span>${song_position}</td>
                       <td>${numberWithCommas(result.listeners)}</td>
                       <td>`;
