@@ -73,7 +73,7 @@ function load_history() {
 }
 
 function set_results(results) {
-    results_list.innerHTML = '<tr><th></th><th>Artist</th><th>Track [position]</th><th>Listeners</th><th>Tags</th></tr>';
+    results_list.innerHTML = '<tr><th></th><th></th><th>Artist</th><th>Track [position]</th><th>Listeners</th><th>Tags</th></tr>';
     for (let [index, result] of results.entries()) {
         let row = results_list.insertRow();
         row.innerHTML = result_to_row(result, index + 1);
