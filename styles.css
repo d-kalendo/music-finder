@@ -60,6 +60,10 @@ Global Styles
 ===============
 */
 
+html {
+    background: #CCCCCC;
+}
+
 *,
 ::after,
 ::before {
