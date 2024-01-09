@@ -73,7 +73,7 @@ function load_history() {
 }
 
 function set_results(results) {
-    results_list.innerHTML = '<tr><th></th><th></th><th>Artist</th><th>Track [position]</th><th>Listeners</th><th>Tags</th></tr>';
+    results_list.innerHTML = '<tr><th></th><th></th><th>Artist</th><th>Track [position] [date]</th><th>Listeners</th><th>Tags</th></tr>';
     for (let [index, result] of results.entries()) {
         let row = results_list.insertRow();
         row.innerHTML = result_to_row(result, index + 1);
@@ -83,7 +83,7 @@ function set_results(results) {
 function result_to_row(result, index) {
     let song_position = result.song_position != null ? `<span class='tag'>${result.song_position}</span>` : '';
     let release_date = result.release_date != null ? `<span class="release-date">${result.release_date}</span>` : '';
-    let search_term = result.artist_name+" "+result.song_name;
+    let search_term = result.artist_name + (result.song_position ? (" "+result.song_name) : "");
     let google_link = "https://google.com/search?q="+search_term;
     let youtube_link = "https://youtube.com/results?search_query="+search_term;
     let yandex_link = "https://music.yandex.ru/search?text="+search_term;
@@ -99,7 +99,7 @@ function result_to_row(result, index) {
                       </td>
                       <td>${index}</td>
                       <td><a href="${result.artist_url}" target="_blank">${result.artist_name}</a></td>
-                      <td>${release_date}<span style="vertical-align: middle">${result.song_name}</span>${song_position}</td>
+                      <td><span style="vertical-align: middle">${result.song_name}</span>${song_position}${release_date}</td>
                       <td>${numberWithCommas(result.listeners)}</td>
                       <td>`;
     for (let tag of result.tags) {
