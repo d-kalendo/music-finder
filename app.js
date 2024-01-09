@@ -5,6 +5,7 @@ const btn_find = document.querySelector("#btn_find");
 const loader = document.querySelector("#loader");
 const cb_search_release = document.querySelector("#cb_search_release");
 const history_list = document.querySelector("#history");
+const notification = document.querySelector("#notification");
 const limit = 20;
 const API_KEY = '73005fd771db9631c03e18e59792e5a5';
 const max_progress = limit * 2 - 1;
@@ -84,13 +85,14 @@ function result_to_row(result, index) {
     let song_position = result.song_position != null ? `<span class='tag'>${result.song_position}</span>` : '';
     let release_date = result.release_date != null ? `<span class="release-date">${result.release_date}</span>` : '';
     let search_term = result.artist_name + (result.song_position ? (" "+result.song_name) : "");
+    let copy_value = result.artist_name + (result.song_position ? (" - "+result.song_name) : "");
     let google_link = "https://google.com/search?q="+search_term;
     let youtube_link = "https://youtube.com/results?search_query="+search_term;
     let yandex_link = "https://music.yandex.ru/search?text="+search_term;
     let spotify_link = "https://open.spotify.com/search/"+search_term;
     let row = `<td>
                         <div style="padding-top: 3px; text-align: center;">
-                            <svg xmlns="http://www.w3.org/2000/svg" cursor="pointer" height="16" width="14" viewBox="0 0 448 512" onclick="navigator.clipboard.writeText('${result.artist_name} - ${result.song_name}')"><path d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" cursor="pointer" height="16" width="14" viewBox="0 0 448 512" onclick="navigator.clipboard.writeText('${copy_value}');notification.className='show';setTimeout(function () { notification.className=''; }, 3000);"><path d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
                             <a href="${google_link}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="15.25" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/></svg></a>
                             <a href="${youtube_link}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg></a>
                             <a href="${yandex_link}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="8" viewBox="0 0 256 512"><path d="M153.1 315.8L65.7 512H2l96-209.8c-45.1-22.9-75.2-64.4-75.2-141.1C22.7 53.7 90.8 0 171.7 0H254v512h-55.1V315.8h-45.8zm45.8-269.3h-29.4c-44.4 0-87.4 29.4-87.4 114.6 0 82.3 39.4 108.8 87.4 108.8h29.4V46.5z"/></svg></a>
