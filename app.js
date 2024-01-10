@@ -129,9 +129,6 @@ async function get_songs(input) {
             if ('first-release-date' in mb_response) {
                 release = mb_response['first-release-date'];
             }
-        } else {
-            debugger;
-            let google_response = await send_request(`https://google.com/search?q=${song['artist']} ${song['name']}`)
         }
         result.push({
             artist_name: song['artist'],
