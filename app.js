@@ -3,7 +3,6 @@ const text_input = document.querySelector("#text_input");
 const results_list = document.querySelector("#results");
 const btn_find = document.querySelector("#btn_find");
 const loader = document.querySelector("#loader");
-const cb_search_release = document.querySelector("#cb_search_release");
 const history_list = document.querySelector("#history");
 const notification = document.querySelector("#notification");
 const limit = 20;
@@ -124,12 +123,15 @@ async function get_songs(input) {
         let relative_listeners = Math.round(song['listeners'] / top_songs[0]['listeners'] * artist_info['stats']['listeners']);
         let song_position = top_songs.findIndex(t => t['name'] === song['name'])
         let release = null;
-        if (cb_search_release.checked && song['mbid'] != null && song['mbid'] !== '') {
+        if (song['mbid'] != null && song['mbid'] !== '') {
             let mb_response = await send_request_with_timeout(`https://musicbrainz.org/ws/2/recording/${song['mbid']}?fmt=json`);
             mb_response = JSON.parse(mb_response);
             if ('first-release-date' in mb_response) {
                 release = mb_response['first-release-date'];
             }
+        } else {
+            debugger;
+            let google_response = await send_request(`https://google.com/search?q=${song['artist']} ${song['name']}`)
         }
         result.push({
             artist_name: song['artist'],
