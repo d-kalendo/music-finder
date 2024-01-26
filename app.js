@@ -10,10 +10,9 @@ const API_KEY = '73005fd771db9631c03e18e59792e5a5';
 const max_progress = limit * 2 - 1;
 let progress = 0;
 let history = new Map();
+const history_limit = 10;
 
 load_history();
-
-// TODO: links to google, last fm, yandex music, spotify
 
 btn_find.addEventListener("click", function (e) {
     find();
@@ -56,18 +55,24 @@ async function find() {
 
 function update_history(input, results) {
     history.set(input, results);
-    let option = document.createElement('option');
-    option.value = input;
-    history_list.insertBefore(option, history_list.firstChild);
+    while (history.size > history_limit) {
+        history.delete(history.keys().next().value);
+    }
+    history_list.innerHTML = '';
+    for (let key of history.keys()) {
+        let option = document.createElement('option');
+        option.value = key;
+        history_list.insertBefore(option, history_list.firstChild);
+    }
     localStorage.history = JSON.stringify([...history]);
 }
 
 function load_history() {
     if (!localStorage.history) return;
     history = new Map(JSON.parse(localStorage.history));
-    for (let k of history.keys()) {
+    for (let key of history.keys()) {
         let option = document.createElement('option');
-        option.value = k;
+        option.value = key;
         history_list.insertBefore(option, history_list.firstChild);
     }
 }
